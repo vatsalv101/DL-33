@@ -1,0 +1,17 @@
+[project]
+name = "dl-rl-robotics-80"
+version = "0.1.0"
+description = "From-scratch PyTorch implementations of 80 foundational papers across Deep Learning, Reinforcement Learning, and Robotics"
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = [
+    "einops>=0.8.2",
+    "gymnasium>=1.4.0",
+    "matplotlib>=3.11.2",
+    "numpy>=2.5.4",
+    "pytest>=9.1.1",
+    "scipy>=1.18.1",
+    "torch>=2.14.1",
+    "torchvision>=0.29.1",
+    "tqdm>=4.70.1",
+]
