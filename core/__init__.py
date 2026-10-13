@@ -7,6 +7,7 @@ from core.layers import (
     kaiming_normal_,
     init_weights,
 )
+from core.optimizers import AdamW
 
 __all__ = [
     "calculate_gain",
@@ -14,4 +15,5 @@ __all__ = [
     "kaiming_uniform_",
     "kaiming_normal_",
     "init_weights",
+    "AdamW",
 ]
