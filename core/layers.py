@@ -1,6 +1,7 @@
 """Core verified layers for dl-rl-robotics-80.
 
 Paper 01: Delving Deep into Rectifiers (Kaiming Initialization)
+Paper 03: Batch Normalization (BatchNorm1d & BatchNorm2d)
 Implemented and verified by the student.
 """
 
@@ -87,3 +88,111 @@ def init_weights(
                 kaiming_uniform_(m.weight, a=a, mode=mode, nonlinearity=nonlinearity)
             if m.bias is not None:
                 nn.init.zeros_(m.bias)
+
+
+class BatchNorm1d(nn.Module):
+    """Applies Batch Normalization over a 2D or 3D input."""
+
+    def __init__(
+        self,
+        num_features: int,
+        eps: float = 1e-5,
+        momentum: float = 0.1,
+        affine: bool = True,
+    ):
+        super().__init__()
+        self.num_features = num_features
+        self.eps = eps
+        self.momentum = momentum
+        self.affine = affine
+
+        if self.affine:
+            self.weight = nn.Parameter(torch.ones(num_features))
+            self.bias = nn.Parameter(torch.zeros(num_features))
+        else:
+            self.register_parameter("weight", None)
+            self.register_parameter("bias", None)
+
+        self.register_buffer("running_mean", torch.zeros(num_features))
+        self.register_buffer("running_var", torch.ones(num_features))
+
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
+        dim = (0,) if x.dim() == 2 else (0, 2)
+
+        if self.training:
+            mean = x.mean(dim)
+            var = x.var(dim, unbiased=False)
+            n = x.numel() / self.num_features
+            unbiased_var = var * (n / (n - 1)) if n > 1 else var
+
+            with torch.no_grad():
+                self.running_mean.lerp_(mean, self.momentum)
+                self.running_var.lerp_(unbiased_var, self.momentum)
+        else:
+            mean = self.running_mean
+            var = self.running_var
+
+        shape = [1, self.num_features] + [1] * (x.dim() - 2)
+        mean = mean.view(shape)
+        var = var.view(shape)
+
+        x_hat = (x - mean) / torch.sqrt(var + self.eps)
+
+        if self.affine:
+            w = self.weight.view(shape)
+            b = self.bias.view(shape)
+            return x_hat * w + b
+        return x_hat
+
+
+class BatchNorm2d(nn.Module):
+    """Applies Batch Normalization over a 4D input (spatial Conv2d feature maps)."""
+
+    def __init__(
+        self,
+        num_features: int,
+        eps: float = 1e-5,
+        momentum: float = 0.1,
+        affine: bool = True,
+    ):
+        super().__init__()
+        self.num_features = num_features
+        self.eps = eps
+        self.momentum = momentum
+        self.affine = affine
+
+        if self.affine:
+            self.weight = nn.Parameter(torch.ones(num_features))
+            self.bias = nn.Parameter(torch.zeros(num_features))
+        else:
+            self.register_parameter("weight", None)
+            self.register_parameter("bias", None)
+
+        self.register_buffer("running_mean", torch.zeros(num_features))
+        self.register_buffer("running_var", torch.ones(num_features))
+
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
+        dims = (0, 2, 3)
+
+        if self.training:
+            mean = x.mean(dims)
+            unbiased_var = x.var(dims, unbiased=True)
+
+            with torch.no_grad():
+                self.running_mean.lerp_(mean, self.momentum)
+                self.running_var.lerp_(unbiased_var, self.momentum)
+        else:
+            mean = self.running_mean
+            unbiased_var = self.running_var
+
+        shape = (1, self.num_features, 1, 1)
+        mean = mean.view(shape)
+        var = unbiased_var.view(shape)
+
+        x_hat = (x - mean) / torch.sqrt(var + self.eps)
+
+        if self.affine:
+            w = self.weight.view(shape)
+            b = self.bias.view(shape)
+            return x_hat * w + b
+        return x_hat

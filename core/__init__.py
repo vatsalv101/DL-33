@@ -6,6 +6,8 @@ from core.layers import (
     kaiming_uniform_,
     kaiming_normal_,
     init_weights,
+    BatchNorm1d,
+    BatchNorm2d,
 )
 from core.optimizers import AdamW
 
@@ -15,5 +17,7 @@ __all__ = [
     "kaiming_uniform_",
     "kaiming_normal_",
     "init_weights",
+    "BatchNorm1d",
+    "BatchNorm2d",
     "AdamW",
 ]
