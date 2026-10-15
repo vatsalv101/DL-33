@@ -2,11 +2,12 @@
 
 Paper 01: Delving Deep into Rectifiers (Kaiming Initialization)
 Paper 03: Batch Normalization (BatchNorm1d & BatchNorm2d)
+Paper 04: Layer Normalization & RMSNorm (LayerNorm & RMSNorm)
 Implemented and verified by the student.
 """
 
 import math
-from typing import Optional, Union
+from typing import Optional, Tuple, Union
 import torch
 import torch.nn as nn
 
@@ -196,3 +197,66 @@ class BatchNorm2d(nn.Module):
             b = self.bias.view(shape)
             return x_hat * w + b
         return x_hat
+
+
+class LayerNorm(nn.Module):
+    """
+    Applies Layer Normalization over a mini-batch of inputs.
+
+    Args:
+        normalized_shape (int or tuple): Input shape from an expected input of size (*, normalized_shape).
+        eps                     (float): A value added to the denominator for numerical stability. Default: 1e-5.
+        elementwise_affine       (bool): A boolean value that when set to True, has learnable per-element affine parameters. Default: True.
+    """
+
+    def __init__(
+        self,
+        normalized_shape: Union[int, Tuple[int, ...]],
+        eps: float = 1e-5,
+        elementwise_affine: bool = True,
+    ):
+        super().__init__()
+        if isinstance(normalized_shape, int):
+            normalized_shape = (normalized_shape,)
+        self.normalized_shape = tuple(normalized_shape)
+        self.eps = eps
+        self.elementwise_affine = elementwise_affine
+
+        if self.elementwise_affine:
+            self.weight = nn.Parameter(torch.ones(self.normalized_shape))
+            self.bias = nn.Parameter(torch.zeros(self.normalized_shape))
+        else:
+            self.register_parameter("weight", None)
+            self.register_parameter("bias", None)
+
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
+        dims = tuple(range(x.ndim - len(self.normalized_shape), x.ndim))
+        mean = x.mean(dim=dims, keepdim=True)
+        var = x.var(dim=dims, unbiased=False, keepdim=True)
+
+        x_hat = (x - mean) / torch.sqrt(var + self.eps)
+
+        if self.elementwise_affine:
+            return x_hat * self.weight + self.bias
+        return x_hat
+
+
+class RMSNorm(nn.Module):
+    """
+    Applies Root Mean Square Layer Normalization (RMSNorm).
+
+    Args:
+        dim   (int): Dimension of the features to normalize.
+        eps (float): Small value added to denominator for numerical stability. Default: 1e-6.
+    """
+
+    def __init__(self, dim: int, eps: float = 1e-6):
+        super().__init__()
+        self.dim = dim
+        self.eps = eps
+        self.weight = nn.Parameter(torch.ones(dim))
+
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
+        rms = torch.sqrt(torch.mean(x ** 2, dim=-1, keepdim=True) + self.eps)
+        return (x / rms) * self.weight
+

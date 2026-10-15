@@ -8,6 +8,8 @@ from core.layers import (
     init_weights,
     BatchNorm1d,
     BatchNorm2d,
+    LayerNorm,
+    RMSNorm,
 )
 from core.optimizers import AdamW
 
@@ -19,5 +21,8 @@ __all__ = [
     "init_weights",
     "BatchNorm1d",
     "BatchNorm2d",
+    "LayerNorm",
+    "RMSNorm",
     "AdamW",
 ]
+
