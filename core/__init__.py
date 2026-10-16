@@ -1,5 +1,3 @@
-"""Core verified building block library for dl-rl-robotics-80."""
-
 from core.layers import (
     calculate_gain,
     _calculate_fan,
@@ -10,6 +8,14 @@ from core.layers import (
     BatchNorm2d,
     LayerNorm,
     RMSNorm,
+)
+from core.models import (
+    BasicBlock,
+    Bottleneck,
+    ResNet,
+    resnet18,
+    resnet34,
+    resnet50,
 )
 from core.optimizers import AdamW
 
@@ -23,6 +29,13 @@ __all__ = [
     "BatchNorm2d",
     "LayerNorm",
     "RMSNorm",
+    "BasicBlock",
+    "Bottleneck",
+    "ResNet",
+    "resnet18",
+    "resnet34",
+    "resnet50",
     "AdamW",
 ]
+
 
