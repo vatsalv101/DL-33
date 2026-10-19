@@ -111,3 +111,8 @@ U-Net is not just a segmentation tool; it is the **computational engine for mode
 * **#32 Latent Diffusion Models (Stable Diffusion)**: Cross-attention text-conditioned U-Net in VAE latent space.
 * **#33 Flow Matching (Lipman et al., 2022)**: Vector field regression with U-Net.
 * **#63 Diffusion Policy for Robotics (Chi et al., 2023)**: U-Net predicting multi-step robot action trajectories conditioned on visual observations and proprioception!
+
+
+## Further Reading
+
+For more, [visit this chat](https://chatgpt.com/c/6ad1ea9e-4804-83eb-88e6-0b55a0b9f36f).

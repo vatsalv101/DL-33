@@ -78,3 +78,7 @@ Total optimizer memory overhead: **$2\times$ model parameter size**.
 * **Immediate Dependencies**: Built directly on PyTorch tensor operations.
 * **Direct Unlocks**:
   * **All 78 Downstream Papers (#3–#80)**: AdamW is the universal optimization engine for Transformers (#11–18), Self-Supervised Encoders (#19–25), Diffusion Models (#29–33), Deep RL Critics & Actors (#34–44), and Vision-Language-Action Models (#70–80).
+
+## Further Reading
+
+For more, [visit this chat](https://chatgpt.com/c/6acca609-c3e4-83eb-b4b2-aed54a1b844e).

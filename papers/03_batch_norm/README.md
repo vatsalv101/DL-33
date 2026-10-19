@@ -97,3 +97,7 @@ $$\hat{x} = \frac{x - \mu_{\text{running}}}{\sqrt{\sigma^2_{\text{running}} + \e
   * **#6 U-Net**: Feature map normalization in contracting and expansive paths.
   * **#7 MobileNetV2**: Inverted bottleneck blocks with BatchNorm2d.
   * **#9 PointNet**: 1D shared MLPs processing 3D point clouds rely on BatchNorm1d.
+
+## Further Reading
+
+For more, [visit this chat](https://chatgpt.com/c/6acdebac-fe9c-83eb-a961-e1f5641de6b4).

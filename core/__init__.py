@@ -16,6 +16,11 @@ from core.models import (
     resnet18,
     resnet34,
     resnet50,
+    DoubleConv,
+    Down,
+    Up,
+    OutConv,
+    UNet,
 )
 from core.optimizers import AdamW
 
@@ -35,7 +40,13 @@ __all__ = [
     "resnet18",
     "resnet34",
     "resnet50",
+    "DoubleConv",
+    "Down",
+    "Up",
+    "OutConv",
+    "UNet",
     "AdamW",
 ]
+
 
 

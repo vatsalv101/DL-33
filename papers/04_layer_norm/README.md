@@ -83,3 +83,7 @@ where $\gamma \in \mathbb{R}^d$ is the learnable scale parameter (no shift $\bet
   * **#18 Mamba**: Selective state-space scan normalization.
   * **#41–44 RL Critics & Actors (PPO, TD3, SAC)**: Continuous action policy and value network normalization.
   * **#80 $\pi_0$ (Pi-Zero VLA)**: High-frequency flow matching policy backbone.
+
+## Further Reading
+
+For more, [visit this chat](https://chatgpt.com/c/6acf4431-7e2c-83ed-9900-5698bac8485e).

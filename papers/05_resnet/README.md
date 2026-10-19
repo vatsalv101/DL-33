@@ -126,3 +126,8 @@ Implementing ResNet unlocks:
 * **#20 SimCLR / #21 MoCo**: Contrastive self-supervised visual representation learning.
 * **#24 CLIP**: OpenAI CLIP image encoder backbone (alongside ViT).
 * **#25 R3M**: Universal visual representations for robot manipulation.
+
+
+## Further Reading
+
+For more, [visit this chat](https://chatgpt.com/c/6ad09c30-82b8-83eb-90f0-aa89205a5749).
