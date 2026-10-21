@@ -2,6 +2,7 @@
 
 Paper 05: Deep Residual Learning for Image Recognition (ResNet)
 Paper 06: U-Net: Convolutional Networks for Biomedical Image Segmentation (U-Net)
+Paper 07: MobileNetV2: Inverted Residuals and Linear Bottlenecks (MobileNetV2)
 Implemented and verified by the student.
 """
 
@@ -351,4 +352,134 @@ class UNet(nn.Module):
 
         logits = self.outc(x)
         return logits
+
+
+class ConvBNReLU(nn.Sequential):
+    """
+    Standard Convolution + BatchNorm + ReLU6 sequential block.
+    """
+
+    def __init__(
+        self,
+        in_planes: int,
+        out_planes: int,
+        kernel_size: int = 3,
+        stride: int = 1,
+        groups: int = 1,
+    ):
+        padding = (kernel_size - 1) // 2
+        super().__init__(
+            nn.Conv2d(
+                in_planes,
+                out_planes,
+                kernel_size,
+                stride,
+                padding,
+                groups=groups,
+                bias=False,
+            ),
+            nn.BatchNorm2d(out_planes),
+            nn.ReLU6(inplace=True),
+        )
+
+
+class InvertedResidual(nn.Module):
+    """
+    Inverted Residual Block with Linear Bottleneck.
+    (1x1 Expansion -> 3x3 Depthwise Conv -> 1x1 Linear Pointwise Projection).
+    """
+
+    def __init__(
+        self,
+        in_channels: int,
+        out_channels: int,
+        stride: int,
+        expand_ratio: int,
+    ):
+        super().__init__()
+        self.stride = stride
+        self.in_channels = in_channels
+        self.out_channels = out_channels
+        self.expand_ratio = expand_ratio
+
+        self.use_res_connect = self.stride == 1 and in_channels == out_channels
+
+        hidden_dim = int(round(in_channels * expand_ratio))
+        layers = []
+
+        if expand_ratio != 1:
+            layers.append(ConvBNReLU(in_channels, hidden_dim, kernel_size=1))
+
+        layers.extend([
+            ConvBNReLU(hidden_dim, hidden_dim, stride=stride, groups=hidden_dim),
+            nn.Conv2d(hidden_dim, out_channels, kernel_size=1, bias=False),
+            nn.BatchNorm2d(out_channels),
+        ])
+
+        self.conv = nn.Sequential(*layers)
+
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
+        if self.use_res_connect:
+            return x + self.conv(x)
+        return self.conv(x)
+
+
+class MobileNetV2(nn.Module):
+    """
+    MobileNetV2 neural network architecture.
+    """
+
+    def __init__(self, num_classes: int = 1000, width_mult: float = 1.0):
+        super().__init__()
+
+        input_channel = int(32 * width_mult)
+        last_channel = int(1280 * max(1.0, width_mult))
+
+        self.cfgs = [
+            [1, 16, 1, 1],
+            [6, 24, 2, 2],
+            [6, 32, 3, 2],
+            [6, 64, 4, 2],
+            [6, 96, 3, 1],
+            [6, 160, 3, 2],
+            [6, 320, 1, 1],
+        ]
+
+        features = [ConvBNReLU(3, input_channel, stride=2)]
+
+        for t, c, n, s in self.cfgs:
+            output_channel = int(c * width_mult)
+            for i in range(n):
+                stride = s if i == 0 else 1
+                features.append(
+                    InvertedResidual(
+                        input_channel,
+                        output_channel,
+                        stride=stride,
+                        expand_ratio=t,
+                    )
+                )
+                input_channel = output_channel
+
+        features.append(ConvBNReLU(input_channel, last_channel, kernel_size=1))
+        self.features = nn.Sequential(*features)
+
+        self.pool = nn.AdaptiveAvgPool2d((1, 1))
+        self.classifier = nn.Sequential(
+            nn.Dropout(0.2),
+            nn.Linear(last_channel, num_classes),
+        )
+
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
+        x = self.features(x)
+        x = self.pool(x)
+        x = torch.flatten(x, 1)
+        x = self.classifier(x)
+        return x
+
+
+def mobilenet_v2(num_classes: int = 1000, width_mult: float = 1.0) -> MobileNetV2:
+    """Constructs a MobileNetV2 architecture."""
+    return MobileNetV2(num_classes=num_classes, width_mult=width_mult)
+
 

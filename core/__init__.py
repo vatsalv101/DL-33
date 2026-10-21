@@ -21,6 +21,10 @@ from core.models import (
     Up,
     OutConv,
     UNet,
+    ConvBNReLU,
+    InvertedResidual,
+    MobileNetV2,
+    mobilenet_v2,
 )
 from core.optimizers import AdamW
 
@@ -45,8 +49,13 @@ __all__ = [
     "Up",
     "OutConv",
     "UNet",
+    "ConvBNReLU",
+    "InvertedResidual",
+    "MobileNetV2",
+    "mobilenet_v2",
     "AdamW",
 ]
+
 
 
 
