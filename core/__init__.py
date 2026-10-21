@@ -27,6 +27,7 @@ from core.models import (
     mobilenet_v2,
 )
 from core.optimizers import AdamW
+from core.losses import BinaryFocalLoss, FocalLoss
 
 __all__ = [
     "calculate_gain",
@@ -54,7 +55,10 @@ __all__ = [
     "MobileNetV2",
     "mobilenet_v2",
     "AdamW",
+    "BinaryFocalLoss",
+    "FocalLoss",
 ]
+
 
 
 
