@@ -25,6 +25,11 @@ from core.models import (
     InvertedResidual,
     MobileNetV2,
     mobilenet_v2,
+    TNet,
+    PointNetEncoder,
+    PointNetCls,
+    PointNetSeg,
+    feature_transform_regularizer,
 )
 from core.optimizers import AdamW
 from core.losses import BinaryFocalLoss, FocalLoss
@@ -54,6 +59,11 @@ __all__ = [
     "InvertedResidual",
     "MobileNetV2",
     "mobilenet_v2",
+    "TNet",
+    "PointNetEncoder",
+    "PointNetCls",
+    "PointNetSeg",
+    "feature_transform_regularizer",
     "AdamW",
     "BinaryFocalLoss",
     "FocalLoss",
