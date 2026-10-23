@@ -33,6 +33,7 @@ from core.models import (
 )
 from core.optimizers import AdamW
 from core.losses import BinaryFocalLoss, FocalLoss
+from core.attention import BahdanauAttention, Encoder, Decoder, Seq2Seq
 
 __all__ = [
     "calculate_gain",
@@ -67,6 +68,10 @@ __all__ = [
     "AdamW",
     "BinaryFocalLoss",
     "FocalLoss",
+    "BahdanauAttention",
+    "Encoder",
+    "Decoder",
+    "Seq2Seq",
 ]
 
 
