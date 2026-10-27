@@ -33,7 +33,21 @@ from core.models import (
 )
 from core.optimizers import AdamW
 from core.losses import BinaryFocalLoss, FocalLoss
-from core.attention import BahdanauAttention, Encoder, Decoder, Seq2Seq
+from core.attention import (
+    BahdanauAttention,
+    Encoder,
+    Decoder,
+    Seq2Seq,
+    ScaledDotProductAttention,
+    MultiHeadAttention,
+    PositionwiseFeedForward,
+    PositionalEncoding,
+    TransformerEncoderLayer,
+    TransformerEncoder,
+    TransformerDecoderLayer,
+    TransformerDecoder,
+    Transformer,
+)
 
 __all__ = [
     "calculate_gain",
@@ -72,6 +86,15 @@ __all__ = [
     "Encoder",
     "Decoder",
     "Seq2Seq",
+    "ScaledDotProductAttention",
+    "MultiHeadAttention",
+    "PositionwiseFeedForward",
+    "PositionalEncoding",
+    "TransformerEncoderLayer",
+    "TransformerEncoder",
+    "TransformerDecoderLayer",
+    "TransformerDecoder",
+    "Transformer",
 ]
 
 
