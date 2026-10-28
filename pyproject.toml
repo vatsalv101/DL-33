@@ -1,7 +1,7 @@
 [project]
 name = "dl-rl-robotics-80"
 version = "0.1.0"
-description = "From-scratch PyTorch implementations of 80 foundational papers across Deep Learning, Reinforcement Learning, and Robotics"
+description = "From-scratch PyTorch implementations of foundational papers across Deep Learning, Transformers, Self-Supervised Learning, and Generative Modeling (Papers #1–#33)"
 readme = "README.md"
 requires-python = ">=3.14"
 dependencies = [

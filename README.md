@@ -4,15 +4,15 @@
 [![PyTorch](https://img.shields.io/badge/PyTorch-2.0+-ee4c2c.svg)](https://pytorch.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-> **80 Foundational Papers from Scratch in PyTorch** across Deep Learning, Reinforcement Learning, and Robotics — organized with strict topological code dependencies and zero forward references.
+> **Foundational Papers from Scratch in PyTorch** (Stages 1–4: Papers #1–#33) across Deep Learning, Computer Vision, Transformers, Self-Supervised Learning & Generative Modeling — organized with strict topological code dependencies and zero forward references.
 
 ---
 
 ## 🧭 Philosophy & Vision
 
-Most paper implementations exist as isolated repositories with disparate interfaces, implicit assumptions, and uncontrolled dependencies. **DL-RL-Robotics-80** builds an interconnected, cumulative library of 80 milestone papers from first principles:
+Most paper implementations exist as isolated repositories with disparate interfaces, implicit assumptions, and uncontrolled dependencies. **DL-RL-Robotics-80** builds an interconnected, cumulative library of milestone papers from first principles:
 
-* **Strict Topological Sort:** Modules build upon previous implementations. Paper #43 (TD3) directly imports and extends Paper #42 (DDPG); Paper #74 (Diffusion Policy) composes Paper #6 (U-Net) and Paper #30 (DDIM).
+* **Strict Topological Sort:** Modules build upon previous implementations. Paper #11 (Transformer) builds upon Paper #4 (LayerNorm) and Paper #10 (Bahdanau Attention); Paper #32 (Latent Diffusion) composes Paper #6 (U-Net) and Paper #26 (VAE).
 * **Zero Magic:** No high-level wrappers hiding the math. Every layer, attention head, loss function, and update step is exposed and audited.
 * **Rigorous Verification Gate:** Every implementation must pass a 6-step verification pipeline before its building blocks are exported to the shared `core/` library.
 
@@ -45,7 +45,7 @@ Each paper follows a deterministic validation workflow:
 
 ---
 
-## 🗺️ 80-Paper Roadmap
+## 🗺️ Roadmap (Stages 1–4: Papers #1–#33)
 
 <details open>
 <summary><b>Stage 1: Optimization, Normalization & 2D/3D Backbones (#1–#9)</b></summary>
@@ -100,6 +100,7 @@ Each paper follows a deterministic validation workflow:
 - **#33 Flow Matching for Generative Modeling** — Lipman et al., 2022
 </details>
 
+<!-- Stages 5–9 commented out during plan reconsideration:
 <details>
 <summary><b>Stage 5: Deep RL I — Value-Based & Policy Gradients (#34–#43)</b></summary>
 
@@ -171,6 +172,7 @@ Each paper follows a deterministic validation workflow:
 - **#79 OpenVLA / RT-2** — Kim et al., 2024
 - **#80 $\pi_0$ (Pi-Zero): VLA Flow Matching Model** — Black et al., 2024
 </details>
+-->
 
 ---
 
