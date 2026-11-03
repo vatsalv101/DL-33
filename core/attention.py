@@ -604,3 +604,224 @@ class Transformer(nn.Module):
         )
         logits = self.fc_out(dec_out)
         return logits
+
+
+
+def rotate_half(x: torch.Tensor) -> torch.Tensor:
+    """
+    Rotates half the hidden dimensions of the input tensor:
+    [-x_{d/2:}, x_{:d/2}]
+    """
+    x1 = x[..., : x.shape[-1] // 2]
+    x2 = x[..., x.shape[-1] // 2 :]
+    return torch.cat((-x2, x1), dim=-1)
+
+
+def apply_rotary_pos_emb(
+    x: torch.Tensor, cos: torch.Tensor, sin: torch.Tensor
+) -> torch.Tensor:
+    """
+    Applies Rotary Position Embedding to input tensor x:
+    RoPE(x, m) = (x * cos) + (rotate_half(x) * sin)
+    """
+    return (x * cos) + (rotate_half(x) * sin)
+
+
+class RotaryPositionalEmbedding(nn.Module):
+    """
+    Rotary Position Embedding (RoPE) cache module.
+    Computes and caches frequency tensors:
+    theta_i = 1 / (base^(2i / dim)), for i in [0, dim/2)
+    """
+
+    def __init__(
+        self, dim: int, max_seq_len: int = 4096, base: float = 10000.0
+    ):
+        super().__init__()
+        self.dim = dim
+        self.max_seq_len = max_seq_len
+        self.base = base
+
+        inv_freq = 1.0 / (base ** (torch.arange(0, dim, 2).float() / dim))
+        self.register_buffer("inv_freq", inv_freq, persistent=False)
+        self._build_cache(max_seq_len)
+
+    def _build_cache(self, seq_len: int):
+        self.max_seq_len = max(self.max_seq_len, seq_len)
+        t = torch.arange(self.max_seq_len, dtype=torch.float32, device=self.inv_freq.device)
+        freqs = torch.outer(t, self.inv_freq)
+        emb = torch.cat((freqs, freqs), dim=-1)
+        cos = emb.cos().unsqueeze(0).unsqueeze(0)
+        sin = emb.sin().unsqueeze(0).unsqueeze(0)
+        self.register_buffer("cos_cached", cos, persistent=False)
+        self.register_buffer("sin_cached", sin, persistent=False)
+
+    def forward(
+        self,
+        seq_len: int,
+        device: Optional[torch.device] = None,
+        dtype: Optional[torch.dtype] = None,
+    ) -> Tuple[torch.Tensor, torch.Tensor]:
+        if seq_len > self.max_seq_len:
+            self._build_cache(seq_len)
+        cos = self.cos_cached[:, :, :seq_len, :].to(device=device, dtype=dtype)
+        sin = self.sin_cached[:, :, :seq_len, :].to(device=device, dtype=dtype)
+        return cos, sin
+
+
+class RoPEMultiHeadAttention(nn.Module):
+    """
+    Multi-Head Attention with Rotary Position Embedding applied to Q and K.
+    """
+
+    def __init__(
+        self,
+        d_model: int,
+        num_heads: int,
+        dropout: float = 0.1,
+        max_seq_len: int = 4096,
+        base: float = 10000.0,
+    ):
+        super().__init__()
+        assert d_model % num_heads == 0, f"d_model ({d_model}) must be divisible by num_heads ({num_heads})"
+        self.d_model = d_model
+        self.num_heads = num_heads
+        self.d_k = d_model // num_heads
+
+        self.wq = nn.Linear(d_model, d_model, bias=False)
+        self.wk = nn.Linear(d_model, d_model, bias=False)
+        self.wv = nn.Linear(d_model, d_model, bias=False)
+        self.wo = nn.Linear(d_model, d_model, bias=False)
+
+        self.dropout = nn.Dropout(dropout)
+        self.rope = RotaryPositionalEmbedding(self.d_k, max_seq_len=max_seq_len, base=base)
+
+    def forward(
+        self,
+        x: torch.Tensor,
+        mask: Optional[torch.Tensor] = None,
+        cos: Optional[torch.Tensor] = None,
+        sin: Optional[torch.Tensor] = None,
+    ) -> Tuple[torch.Tensor, torch.Tensor]:
+        bs, seq_len, _ = x.shape
+
+        q = self.wq(x).view(bs, seq_len, self.num_heads, self.d_k).transpose(1, 2)
+        k = self.wk(x).view(bs, seq_len, self.num_heads, self.d_k).transpose(1, 2)
+        v = self.wv(x).view(bs, seq_len, self.num_heads, self.d_k).transpose(1, 2)
+
+        if cos is None or sin is None:
+            cos, sin = self.rope(seq_len, device=x.device, dtype=q.dtype)
+
+        q = apply_rotary_pos_emb(q, cos, sin)
+        k = apply_rotary_pos_emb(k, cos, sin)
+
+        scores = torch.matmul(q, k.transpose(-2, -1)) / math.sqrt(self.d_k)
+
+        if mask is not None:
+            if mask.dim() == 2:
+                mask = mask.unsqueeze(0).unsqueeze(0)
+            elif mask.dim() == 3:
+                mask = mask.unsqueeze(1)
+
+            if mask.dtype == torch.bool:
+                scores = scores.masked_fill(~mask, -1e9)
+            elif mask.dtype.is_floating_point and (mask < -1.0).any():
+                scores = scores + mask
+            else:
+                scores = scores.masked_fill(mask == 0, -1e9)
+
+        attn_weights = F.softmax(scores, dim=-1)
+        attn_weights = self.dropout(attn_weights)
+        out = torch.matmul(attn_weights, v)
+
+        out = out.transpose(1, 2).contiguous().view(bs, seq_len, self.d_model)
+        out = self.wo(out)
+        return out, attn_weights
+
+
+class RoFormerEncoderLayer(nn.Module):
+    """
+    Single RoFormer Encoder Layer (Pre-LN architecture).
+    """
+
+    def __init__(
+        self,
+        d_model: int,
+        num_heads: int,
+        d_ff: int,
+        dropout: float = 0.1,
+        max_seq_len: int = 4096,
+        base: float = 10000.0,
+    ):
+        super().__init__()
+        self.self_attn = RoPEMultiHeadAttention(
+            d_model, num_heads, dropout=dropout, max_seq_len=max_seq_len, base=base
+        )
+        self.ffn = PositionwiseFeedForward(d_model, d_ff, dropout=dropout)
+        self.norm1 = nn.LayerNorm(d_model)
+        self.norm2 = nn.LayerNorm(d_model)
+        self.dropout1 = nn.Dropout(dropout)
+        self.dropout2 = nn.Dropout(dropout)
+
+    def forward(
+        self,
+        x: torch.Tensor,
+        mask: Optional[torch.Tensor] = None,
+        cos: Optional[torch.Tensor] = None,
+        sin: Optional[torch.Tensor] = None,
+    ) -> torch.Tensor:
+        normed = self.norm1(x)
+        attn_out, _ = self.self_attn(normed, mask=mask, cos=cos, sin=sin)
+        x = x + self.dropout1(attn_out)
+
+        ffn_out = self.ffn(self.norm2(x))
+        x = x + self.dropout2(ffn_out)
+        return x
+
+
+class RoFormerEncoder(nn.Module):
+    """
+    RoFormer Sequence Encoder consisting of token embeddings and a stack of RoFormerEncoderLayers.
+    """
+
+    def __init__(
+        self,
+        vocab_size: int,
+        d_model: int,
+        num_layers: int,
+        num_heads: int,
+        d_ff: int,
+        max_seq_len: int = 4096,
+        dropout: float = 0.1,
+        base: float = 10000.0,
+    ):
+        super().__init__()
+        self.d_model = d_model
+        self.token_embedding = nn.Embedding(vocab_size, d_model)
+        self.rope = RotaryPositionalEmbedding(d_model // num_heads, max_seq_len=max_seq_len, base=base)
+
+        self.layers = nn.ModuleList(
+            [
+                RoFormerEncoderLayer(
+                    d_model, num_heads, d_ff, dropout=dropout, max_seq_len=max_seq_len, base=base
+                )
+                for _ in range(num_layers)
+            ]
+        )
+        self.final_norm = nn.LayerNorm(d_model)
+        self.dropout = nn.Dropout(dropout)
+
+    def forward(
+        self,
+        input_ids: torch.Tensor,
+        mask: Optional[torch.Tensor] = None,
+    ) -> torch.Tensor:
+        seq_len = input_ids.shape[1]
+        x = self.dropout(self.token_embedding(input_ids))
+
+        cos, sin = self.rope(seq_len, device=input_ids.device, dtype=x.dtype)
+
+        for layer in self.layers:
+            x = layer(x, mask=mask, cos=cos, sin=sin)
+
+        return self.final_norm(x)

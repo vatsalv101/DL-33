@@ -47,6 +47,12 @@ from core.attention import (
     TransformerDecoderLayer,
     TransformerDecoder,
     Transformer,
+    rotate_half,
+    apply_rotary_pos_emb,
+    RotaryPositionalEmbedding,
+    RoPEMultiHeadAttention,
+    RoFormerEncoderLayer,
+    RoFormerEncoder,
 )
 
 __all__ = [
@@ -95,6 +101,12 @@ __all__ = [
     "TransformerDecoderLayer",
     "TransformerDecoder",
     "Transformer",
+    "rotate_half",
+    "apply_rotary_pos_emb",
+    "RotaryPositionalEmbedding",
+    "RoPEMultiHeadAttention",
+    "RoFormerEncoderLayer",
+    "RoFormerEncoder",
 ]
 
 
