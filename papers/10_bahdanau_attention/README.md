@@ -96,3 +96,8 @@ Bahdanau Attention is the direct evolutionary ancestor of the modern Transformer
 * **#12 RoPE & #14 GPT-2**: Autoregressive causal attention with KV-caching.
 * **#17 DETR & #24 CLIP**: Cross-attention aligning vision features with text queries.
 * **#52 Decision Transformer**: Conditioning action generation on return-to-go sequences in offline RL.
+
+## Further Reading
+
+For more, [visit this chat](https://chatgpt.com/c/6ad9d90e-acc8-83ed-81fc-def61d35a70b).
+

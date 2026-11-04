@@ -96,3 +96,8 @@ PointNet is the foundation of 3D Deep Learning and Spatial Robotics:
 * **3D Robot Grasp Synthesis (GraspNet / Contact-GraspNet)**: Predicting 6-DOF gripper poses directly from depth camera point clouds.
 * **Autonomous Driving 3D LiDAR Detectors (PointPillars, VoteNet)**: Detecting 3D bounding boxes of pedestrians and vehicles.
 * **Robotics VLA Observation Backbones**: Processing direct point cloud observations for closed-loop spatial manipulation policies.
+
+## Further Reading
+
+For more, [visit this chat](https://chatgpt.com/c/6ad85cca-6b40-83ed-bc17-b667533204d9).
+

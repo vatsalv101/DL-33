@@ -129,3 +129,8 @@ Mastering the canonical Transformer unlocks:
 - **Paper #16**: Vision Transformer (ViT) — treating image patches as token sequences.
 - **Paper #68 & #74**: Decision Transformer & Trajectory Transformer — casting reinforcement learning as sequence modeling.
 - **Paper #79 & #80**: Octo & OpenVLA — robot manipulation policy transformers conditioned on language and multi-camera visual tokens.
+
+## Further Reading
+
+For more, [visit this chat](https://chatgpt.com/c/6adafa33-5ab8-83eb-9739-1b3d0394e57d).
+

@@ -54,6 +54,20 @@ from core.attention import (
     RoFormerEncoderLayer,
     RoFormerEncoder,
 )
+from core.bert import (
+    BERTEmbedding,
+    BERTSelfAttention,
+    BERTSelfOutput,
+    BERTAttention,
+    BERTIntermediate,
+    BERTOutput,
+    BERTLayer,
+    BERTEncoder,
+    BERTPooler,
+    BERTModel,
+    BERTLMPredictionHead,
+    BERTForPreTraining,
+)
 
 __all__ = [
     "calculate_gain",
@@ -107,6 +121,18 @@ __all__ = [
     "RoPEMultiHeadAttention",
     "RoFormerEncoderLayer",
     "RoFormerEncoder",
+    "BERTEmbedding",
+    "BERTSelfAttention",
+    "BERTSelfOutput",
+    "BERTAttention",
+    "BERTIntermediate",
+    "BERTOutput",
+    "BERTLayer",
+    "BERTEncoder",
+    "BERTPooler",
+    "BERTModel",
+    "BERTLMPredictionHead",
+    "BERTForPreTraining",
 ]
 
 

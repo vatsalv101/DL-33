@@ -106,3 +106,8 @@ RoPE is the de-facto standard positional embedding in state-of-the-art architect
 - **LLaMA 1 / 2 / 3 & Mistral & Gemma**: Standard backbone positional encoding.
 - **Paper #14 (GPT-2) & Modern Decoders**: RoPE powers efficient KV-cache extensions (YaRN, RoPE scaling).
 - **Paper #79 & #80 (OpenVLA, Octo)**: Vision-Language-Action robotics transformers use RoPE to encode long trajectories of visual and proprioceptive state tokens.
+
+## Further Reading
+
+For more, [visit this chat](https://chatgpt.com/c/6ae076f3-5260-83eb-80aa-c4ed91ae9e70).
+

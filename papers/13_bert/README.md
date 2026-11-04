@@ -111,3 +111,8 @@ Positions:    0       1          2         3       4        5
 - **RoBERTa / DeBERTa**: Refinements in dynamic masking, removing NSP, and disentangled relative attention.
 - **Vision Transformers (MAE - Paper #23)**: Masked Autoencoders directly transplant BERT's masked token reconstruction onto visual image patches.
 - **Cross-Modal Robotics (RT-1 / OpenVLA)**: Bidirectional language conditioning encoders for robotic task instructions.
+
+## Further Reading
+
+For more, [visit this chat](https://chatgpt.com/c/6ae9a7f5-3c28-83ed-9fad-d503059a6c4e).
+

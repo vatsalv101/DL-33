@@ -88,3 +88,8 @@ $$\text{Var}[w_l] = \frac{2}{(1 + a^2) n_l}$$
   * **#6 U-Net**: Encoder-decoder convolutional blocks initialized with variance preservation.
   * **#9 PointNet**: Deep shared MLPs on unordered 3D point clouds.
   * **#34–44 RL Critics & Actors**: Stable Q-networks and policy networks in DQN, TD3, and SAC.
+
+## Further Reading
+
+For more, [visit this chat]().
+
