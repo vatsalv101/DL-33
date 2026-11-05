@@ -68,6 +68,13 @@ from core.bert import (
     BERTLMPredictionHead,
     BERTForPreTraining,
 )
+from core.gpt2 import (
+    GPT2Attention,
+    GPT2MLP,
+    GPT2Block,
+    GPT2Model,
+    GPT2LMHeadModel,
+)
 
 __all__ = [
     "calculate_gain",
@@ -133,6 +140,11 @@ __all__ = [
     "BERTModel",
     "BERTLMPredictionHead",
     "BERTForPreTraining",
+    "GPT2Attention",
+    "GPT2MLP",
+    "GPT2Block",
+    "GPT2Model",
+    "GPT2LMHeadModel",
 ]
 
 
