@@ -75,6 +75,11 @@ from core.gpt2 import (
     GPT2Model,
     GPT2LMHeadModel,
 )
+from core.lora import (
+    LoRALinear,
+    mark_only_lora_as_trainable,
+    apply_lora_to_model,
+)
 
 __all__ = [
     "calculate_gain",
@@ -145,6 +150,9 @@ __all__ = [
     "GPT2Block",
     "GPT2Model",
     "GPT2LMHeadModel",
+    "LoRALinear",
+    "mark_only_lora_as_trainable",
+    "apply_lora_to_model",
 ]
 
 
