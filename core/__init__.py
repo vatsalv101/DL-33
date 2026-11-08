@@ -80,6 +80,13 @@ from core.lora import (
     mark_only_lora_as_trainable,
     apply_lora_to_model,
 )
+from core.vit import (
+    PatchEmbedding,
+    ViTAttention,
+    ViTMLP,
+    ViTBlock,
+    ViT,
+)
 
 __all__ = [
     "calculate_gain",
@@ -153,6 +160,11 @@ __all__ = [
     "LoRALinear",
     "mark_only_lora_as_trainable",
     "apply_lora_to_model",
+    "PatchEmbedding",
+    "ViTAttention",
+    "ViTMLP",
+    "ViTBlock",
+    "ViT",
 ]
 
 
