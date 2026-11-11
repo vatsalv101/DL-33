@@ -87,6 +87,18 @@ from core.vit import (
     ViTBlock,
     ViT,
 )
+from core.detr import (
+    box_cxcywh_to_xyxy,
+    box_xyxy_to_cxcywh,
+    box_iou,
+    generalized_box_iou,
+    PositionEmbeddingSine,
+    MLP as DETRMLP,
+    HungarianMatcher,
+    SetCriterion,
+    SimpleBackbone,
+    DETR,
+)
 
 __all__ = [
     "calculate_gain",
@@ -165,6 +177,16 @@ __all__ = [
     "ViTMLP",
     "ViTBlock",
     "ViT",
+    "box_cxcywh_to_xyxy",
+    "box_xyxy_to_cxcywh",
+    "box_iou",
+    "generalized_box_iou",
+    "PositionEmbeddingSine",
+    "DETRMLP",
+    "HungarianMatcher",
+    "SetCriterion",
+    "SimpleBackbone",
+    "DETR",
 ]
 
 
