@@ -143,4 +143,6 @@ The Mamba Block fuses the S6 selective SSM with the gated MLP structure (similar
 
 ## Further Reading
 
-For more, [visit this chat]().
+For more, [visit this chat](https://chatgpt.com/c/6af1961e-d914-83eb-8094-59af29350018).
+For next part, [visit this chat](https://chatgpt.com/c/6af41867-3be8-83ed-b08e-7c6b0960e30c).
+For code part, [visit this chat](https://chatgpt.com/c/6af424e1-3990-83ed-8a82-3e9e67245e32).

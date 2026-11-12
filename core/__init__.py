@@ -99,6 +99,14 @@ from core.detr import (
     SimpleBackbone,
     DETR,
 )
+from core.mamba import (
+    MambaConfig,
+    selective_scan,
+    SelectiveSSM,
+    MambaBlock,
+    ResidualBlock as MambaResidualBlock,
+    MambaLM,
+)
 
 __all__ = [
     "calculate_gain",
@@ -187,6 +195,12 @@ __all__ = [
     "SetCriterion",
     "SimpleBackbone",
     "DETR",
+    "MambaConfig",
+    "selective_scan",
+    "SelectiveSSM",
+    "MambaBlock",
+    "MambaResidualBlock",
+    "MambaLM",
 ]
 
 
