@@ -107,6 +107,11 @@ from core.mamba import (
     ResidualBlock as MambaResidualBlock,
     MambaLM,
 )
+from core.cpc import (
+    info_nce_loss,
+    CPCEncoder,
+    CPCModel,
+)
 
 __all__ = [
     "calculate_gain",
@@ -201,6 +206,9 @@ __all__ = [
     "MambaBlock",
     "MambaResidualBlock",
     "MambaLM",
+    "info_nce_loss",
+    "CPCEncoder",
+    "CPCModel",
 ]
 
 
