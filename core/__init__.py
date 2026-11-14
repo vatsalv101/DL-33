@@ -112,6 +112,13 @@ from core.cpc import (
     CPCEncoder,
     CPCModel,
 )
+from core.simclr import (
+    nt_xent_loss,
+    SimCLRProjectionHead,
+    SmallResNetBackbone,
+    SimCLR,
+    LinearProbe,
+)
 
 __all__ = [
     "calculate_gain",
@@ -209,6 +216,11 @@ __all__ = [
     "info_nce_loss",
     "CPCEncoder",
     "CPCModel",
+    "nt_xent_loss",
+    "SimCLRProjectionHead",
+    "SmallResNetBackbone",
+    "SimCLR",
+    "LinearProbe",
 ]
 
 
