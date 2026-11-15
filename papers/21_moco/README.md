@@ -117,4 +117,4 @@ For a batch of $N$ queries $q \in \mathbb{R}^{N \times D}$ and their correspondi
 
 ## Further Reading
 
-For more, [visit this chat]().
+For more, [visit this chat](https://chatgpt.com/c/6af84e14-1088-83eb-a0fd-73f4b196f4b0).

@@ -119,6 +119,10 @@ from core.simclr import (
     SimCLR,
     LinearProbe,
 )
+from core.moco import (
+    MoCoBackbone,
+    MoCo,
+)
 
 __all__ = [
     "calculate_gain",
@@ -221,6 +225,8 @@ __all__ = [
     "SmallResNetBackbone",
     "SimCLR",
     "LinearProbe",
+    "MoCoBackbone",
+    "MoCo",
 ]
 
 
