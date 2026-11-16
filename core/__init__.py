@@ -123,6 +123,12 @@ from core.moco import (
     MoCoBackbone,
     MoCo,
 )
+from core.dino import (
+    DINOHead,
+    DINOLoss,
+    CompactViT,
+    DINO,
+)
 
 __all__ = [
     "calculate_gain",
@@ -227,6 +233,10 @@ __all__ = [
     "LinearProbe",
     "MoCoBackbone",
     "MoCo",
+    "DINOHead",
+    "DINOLoss",
+    "CompactViT",
+    "DINO",
 ]
 
 
