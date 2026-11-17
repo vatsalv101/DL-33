@@ -129,6 +129,12 @@ from core.dino import (
     CompactViT,
     DINO,
 )
+from core.mae import (
+    patchify,
+    unpatchify,
+    random_masking,
+    MaskedAutoencoderViT,
+)
 
 __all__ = [
     "calculate_gain",
@@ -237,6 +243,10 @@ __all__ = [
     "DINOLoss",
     "CompactViT",
     "DINO",
+    "patchify",
+    "unpatchify",
+    "random_masking",
+    "MaskedAutoencoderViT",
 ]
 
 
