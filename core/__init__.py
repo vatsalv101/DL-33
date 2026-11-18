@@ -135,6 +135,15 @@ from core.mae import (
     random_masking,
     MaskedAutoencoderViT,
 )
+from core.clip import (
+    VisionBackbone as CLIPVisionBackbone,
+    TextTransformerEncoder as CLIPTextEncoder,
+    CLIP,
+)
+from core.r3m import (
+    R3MTextEncoder,
+    R3M,
+)
 
 __all__ = [
     "calculate_gain",
@@ -247,6 +256,11 @@ __all__ = [
     "unpatchify",
     "random_masking",
     "MaskedAutoencoderViT",
+    "CLIPVisionBackbone",
+    "CLIPTextEncoder",
+    "CLIP",
+    "R3MTextEncoder",
+    "R3M",
 ]
 
 
