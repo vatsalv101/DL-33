@@ -144,6 +144,13 @@ from core.r3m import (
     R3MTextEncoder,
     R3M,
 )
+from core.vae import (
+    reparameterize,
+    vae_loss,
+    ConvEncoder,
+    ConvDecoder,
+    VAE,
+)
 
 __all__ = [
     "calculate_gain",
@@ -261,6 +268,11 @@ __all__ = [
     "CLIP",
     "R3MTextEncoder",
     "R3M",
+    "reparameterize",
+    "vae_loss",
+    "ConvEncoder",
+    "ConvDecoder",
+    "VAE",
 ]
 
 
