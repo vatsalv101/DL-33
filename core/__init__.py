@@ -151,6 +151,13 @@ from core.vae import (
     ConvDecoder,
     VAE,
 )
+from core.vqvae import (
+    VQVAEResidualBlock,
+    VectorQuantizer,
+    VQVAEEncoder,
+    VQVAEDecoder,
+    VQVAE,
+)
 
 __all__ = [
     "calculate_gain",
@@ -273,6 +280,11 @@ __all__ = [
     "ConvEncoder",
     "ConvDecoder",
     "VAE",
+    "VQVAEResidualBlock",
+    "VectorQuantizer",
+    "VQVAEEncoder",
+    "VQVAEDecoder",
+    "VQVAE",
 ]
 
 
