@@ -149,4 +149,4 @@ Critic:
 - Goodfellow, I., et al. (2014). *Generative Adversarial Nets*. NeurIPS 2014.
 - Arjovsky, M., Chintala, S., & Bottou, L. (2017). *Wasserstein Generative Adversarial Networks*. ICML 2017.
 - Gulrajani, I., Ahmed, F., Arjovsky, M., Dumoulin, V., & Courville, A. (2017). *Improved Training of Wasserstein GANs*. NeurIPS 2017.
-- [visit this chat]()
+- [visit this chat](https://chatgpt.com/c/6b0414b3-6ff0-83ed-9d2a-b6845ebc3db2)

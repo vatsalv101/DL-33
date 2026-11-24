@@ -158,6 +158,14 @@ from core.vqvae import (
     VQVAEDecoder,
     VQVAE,
 )
+from core.gan import (
+    compute_gradient_penalty,
+    critic_loss,
+    generator_loss,
+    WGANGenerator,
+    WGANCritic,
+    WGANGP,
+)
 
 __all__ = [
     "calculate_gain",
@@ -285,6 +293,12 @@ __all__ = [
     "VQVAEEncoder",
     "VQVAEDecoder",
     "VQVAE",
+    "compute_gradient_penalty",
+    "critic_loss",
+    "generator_loss",
+    "WGANGenerator",
+    "WGANCritic",
+    "WGANGP",
 ]
 
 
