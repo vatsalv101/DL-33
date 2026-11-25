@@ -166,6 +166,13 @@ from core.gan import (
     WGANCritic,
     WGANGP,
 )
+from core.ddpm import (
+    extract as extract_diffusion_coef,
+    SinusoidalPosEmb,
+    DiffusionResidualBlock,
+    UNetDenoiser,
+    GaussianDiffusion,
+)
 
 __all__ = [
     "calculate_gain",
@@ -299,6 +306,11 @@ __all__ = [
     "WGANGenerator",
     "WGANCritic",
     "WGANGP",
+    "extract_diffusion_coef",
+    "SinusoidalPosEmb",
+    "DiffusionResidualBlock",
+    "UNetDenoiser",
+    "GaussianDiffusion",
 ]
 
 
