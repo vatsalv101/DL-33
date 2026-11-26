@@ -173,6 +173,10 @@ from core.ddpm import (
     UNetDenoiser,
     GaussianDiffusion,
 )
+from core.ddim import (
+    DDIMScheduler,
+    DDIM,
+)
 
 __all__ = [
     "calculate_gain",
@@ -311,6 +315,8 @@ __all__ = [
     "DiffusionResidualBlock",
     "UNetDenoiser",
     "GaussianDiffusion",
+    "DDIMScheduler",
+    "DDIM",
 ]
 
 
